@@ -1,6 +1,6 @@
 const argon = require('argon2');
-const sendUserMail = require('../../helpers/sendMail');
-const otpGen = require('../../helpers/otpGen');
+const sendUserMail = require('../../helpers/sendMail'); 
+const mongoose = require('mongoose');
 
 
 async function register(req, res) {
@@ -25,11 +25,10 @@ async function register(req, res) {
 
         // check if there is any error
         if(Object.keys(errors).length > 0) res.status(400).send({ success: false ,  errors })
-
         
         const hashedPassword = await argon.hash(password); // hash password for database
 
-        const otp = otpGen(8)
+        const otp = mongoose.Types.ObjectId().toString().slice(0 , 8); // generate otp
 
         await sendUserMail(email , "Welcome to ToDo App By Shakhawat" , otp)  // send otp to user mail
 

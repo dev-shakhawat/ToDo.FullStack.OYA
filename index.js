@@ -1,20 +1,19 @@
-const express = require('express');
-const register = require('./controllers/auth/register');
-const login = require('./controllers/auth/login');
+const env = require('dotenv').config();
+const express = require('express'); 
+const dbConfigaration = require('./configurations/dbConfig');
 const app = express();
+const routes = require('./routes');
 
 
 
 app.use(express.json());  // json parser
 
 
+dbConfigaration();  // connect to database
 
-app.post('/registration', register);  // register route
+ 
 
-app.post('/login' , login)  // login route
-
-
-
+app.use('/' , routes)
 
 
 
