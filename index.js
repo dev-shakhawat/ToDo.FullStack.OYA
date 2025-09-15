@@ -13,11 +13,11 @@ dbConfigaration();  // connect to database
 
  
 
-app.use('/' , routes)
+app.use('/' , routes)  // all routes/api's likned here
 
 
 
 // start server
-app.listen(8080, () => {
+app.listen( process.env.SERVER_PORT || 8080, () => {
     console.log('Server started on port 8080');
 });
