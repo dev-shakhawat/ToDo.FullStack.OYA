@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const userSchema = require('../../schema/userSchema');
 
-async function tokenVerify(req , res){ 
+async function emailVerify(req , res){ 
 
     try{
 
@@ -22,4 +22,4 @@ async function tokenVerify(req , res){
 
 
 
-module.exports = tokenVerify
+module.exports = emailVerify
