@@ -17,16 +17,16 @@ authAPI.post('/registration' , register)   // user registration api
 authAPI.post('/login' , login)   // user login api
 
 
-authAPI.get('/emailVerify/:token' , emailVerify)   // user token verify api
+authAPI.get('/email-verify/:token' , emailVerify)   // user token verify api
 
 
 authAPI.post('/refresh' , refreshController)   // user token verify api
 
 
-authAPI.post('/forgetPass' , forgetPass)   // user token verify api
+authAPI.post('/forget-password' , forgetPass)   // user token verify api
 
 
-authAPI.post('/resetPass/:token' , resetPassword)   // user token verify api
+authAPI.post('/reset-password/:token' , resetPassword)   // user token verify api
 
 
 

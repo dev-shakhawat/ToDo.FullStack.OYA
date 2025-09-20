@@ -29,7 +29,7 @@ const refresh = createAsyncThunk('auth/refresh', async (data , { rejectWithValue
   }
 })
 
-const forgetPass = createAsyncThunk('auth/forgetPass', async (data , { rejectWithValue })=>{
+const forgetPass = createAsyncThunk('auth/forget-password' , async (data , { rejectWithValue })=>{
   try {
      const res =  await authApi.forgetPass(data)
      return res.data
@@ -38,7 +38,7 @@ const forgetPass = createAsyncThunk('auth/forgetPass', async (data , { rejectWit
   }
 })
 
-const resetPass = createAsyncThunk('auth/resetPass', async (data , { rejectWithValue })=>{
+const resetPass = createAsyncThunk('auth/reset-password', async (data , { rejectWithValue })=>{
   try {
      const res =  await authApi.resetPass(data)
      return res.data
@@ -87,6 +87,85 @@ export const authSlice = createSlice({
         state.message = action.payload.message
       })
       .addCase(login.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message
+        state.message = null
+      })
+
+      .addCase(registration.pending, (state) => {
+        state.loading = true
+        state.error = null
+        state.message = null
+      })
+      .addCase(registration.fulfilled, (state, action) => {
+        state.loading = false
+        state.user = action.payload.user
+        state.accessToken = action.payload.accessToken
+        state.message = action.payload.message
+      })
+      .addCase(registration.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message
+        state.message = null
+      })
+
+      .addCase(refresh.pending, (state) => {
+        state.loading = true
+        state.error = null
+        state.message = null
+      })
+      .addCase(refresh.fulfilled, (state, action) => {
+        state.loading = false
+        state.user = action.payload.user
+        state.accessToken = action.payload.accessToken
+        state.message = action.payload.message
+      })
+      .addCase(refresh.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message
+        state.message = null
+      })
+
+      .addCase(forgetPass.pending, (state) => {
+        state.loading = true
+        state.error = null
+        state.message = null
+      })
+      .addCase(forgetPass.fulfilled, (state, action) => {
+        state.loading = false
+        state.message = action.payload.message
+      })
+      .addCase(forgetPass.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message
+        state.message = null
+      })
+
+      .addCase(resetPass.pending, (state) => {
+        state.loading = true
+        state.error = null
+        state.message = null
+      })
+      .addCase(resetPass.fulfilled, (state, action) => {
+        state.loading = false
+        state.message = action.payload.message
+      })
+      .addCase(resetPass.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message
+        state.message = null
+      })
+
+      .addCase(emailVerify.pending, (state) => {
+        state.loading = true
+        state.error = null
+        state.message = null
+      })
+      .addCase(emailVerify.fulfilled, (state, action) => {
+        state.loading = false
+        state.message = action.payload.message
+      })
+      .addCase(emailVerify.rejected, (state, action) => {
         state.loading = false
         state.error = action.error.message
         state.message = null
