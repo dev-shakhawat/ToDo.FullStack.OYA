@@ -2,8 +2,13 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
 const api = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: "http://localhost:8080",
     withCredentials: true // include cookies in request
+});
+
+const refreshApi = axios.create({
+  baseURL: "http://localhost:8080",
+  withCredentials: true
 });
 
 let accessToken = null
@@ -12,20 +17,26 @@ export const setAccessToken = (token) => accessToken = token
 
 api.interceptors.request.use( async (config) => {
 
-    console.log(config);
+    try{
+        console.log("this is before request")
     
-    console.log("this is before request")
-    if(accessToken) {
-        const decodedToken = jwtDecode(accessToken)
-        if(decodedToken.exp * 1000 < Date.now()) {
-            const res = await api.post("auth/refresh")
-            accessToken = res.data.accessToken
+        if(accessToken) {
+            const decodedToken = jwtDecode(accessToken)
+            if(decodedToken.exp * 1000 < Date.now()) {
+                const res = await refreshApi.post("auth/refresh")
+                accessToken = res.data.accessToken
+            }
+
+            config.headers.Authorization = `Bearer ${accessToken}`
         }
 
-        config.headers.Authorization = `Bearer ${accessToken}`
-    }
+        return config
 
-    return config
+    }catch(error){
+        console.log(error); 
+        accessToken = null
+        return config
+    }
     
 })
 

@@ -2,34 +2,34 @@ import { createSlice , createAsyncThunk } from '@reduxjs/toolkit'
 import * as authApi from "./authApi"
 
 
-const registration = createAsyncThunk('auth/registration', async (data , { rejectWithValue })=>{
+export const registration = createAsyncThunk('auth/registration', async (data , { rejectWithValue })=>{
   try {
-     const res =  await authApi.registration()
+     const res =  await authApi.registration(data)
      return res.data
   } catch (error) {
     return rejectWithValue(error.response.data)
   }
 })
 
-const login = createAsyncThunk('auth/login', async (data , { rejectWithValue })=>{
+export const login = createAsyncThunk('auth/login', async (data , { rejectWithValue })=>{
   try {
      const res =  await authApi.login(data)
      return res.data
   } catch (error) {
-    return rejectWithValue(error.response.data)
+    return rejectWithValue(error.response.data || "Refresh failed")
   }
 })
 
-const refresh = createAsyncThunk('auth/refresh', async (data , { rejectWithValue })=>{
+export const refresh = createAsyncThunk('auth/refresh', async (data , { rejectWithValue })=>{
   try {
-     const res =  await authApi.refresh(data)
+     const res =  await authApi.refresh()
      return res.data
   } catch (error) {
     return rejectWithValue(error.response.data)
   }
 })
 
-const forgetPass = createAsyncThunk('auth/forget-password' , async (data , { rejectWithValue })=>{
+export const forgetPass = createAsyncThunk('auth/forget-password' , async (data , { rejectWithValue })=>{
   try {
      const res =  await authApi.forgetPass(data)
      return res.data
@@ -38,7 +38,7 @@ const forgetPass = createAsyncThunk('auth/forget-password' , async (data , { rej
   }
 })
 
-const resetPass = createAsyncThunk('auth/reset-password', async (data , { rejectWithValue })=>{
+export const resetPass = createAsyncThunk('auth/reset-password', async (data , { rejectWithValue })=>{
   try {
      const res =  await authApi.resetPass(data)
      return res.data
@@ -47,7 +47,7 @@ const resetPass = createAsyncThunk('auth/reset-password', async (data , { reject
   }
 })
 
-const emailVerify = createAsyncThunk('auth/emailVerify', async (data , { rejectWithValue })=>{
+export const emailVerify = createAsyncThunk('auth/emailVerify', async (data , { rejectWithValue })=>{
   try {
      const res =  await authApi.emailVerify(data)
      return res.data
@@ -75,6 +75,8 @@ export const authSlice = createSlice({
   },
   extraReducers(builder) {
     builder
+
+    // login 
       .addCase(login.pending, (state) => {
         state.loading = true
         state.error = null
@@ -88,10 +90,11 @@ export const authSlice = createSlice({
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false
-        state.error = action.error.message
+        state.error = action.payload
         state.message = null
       })
-
+    
+      // registration
       .addCase(registration.pending, (state) => {
         state.loading = true
         state.error = null
@@ -105,10 +108,11 @@ export const authSlice = createSlice({
       })
       .addCase(registration.rejected, (state, action) => {
         state.loading = false
-        state.error = action.error.message
+        state.error = action.payload.error
         state.message = null
       })
-
+    
+      // refresh
       .addCase(refresh.pending, (state) => {
         state.loading = true
         state.error = null
@@ -122,10 +126,11 @@ export const authSlice = createSlice({
       })
       .addCase(refresh.rejected, (state, action) => {
         state.loading = false
-        state.error = action.error.message
+        state.error = action.payload.error
         state.message = null
       })
-
+    
+    // forget password
       .addCase(forgetPass.pending, (state) => {
         state.loading = true
         state.error = null
@@ -137,10 +142,11 @@ export const authSlice = createSlice({
       })
       .addCase(forgetPass.rejected, (state, action) => {
         state.loading = false
-        state.error = action.error.message
+        state.error = action.payload.error
         state.message = null
       })
-
+    
+    // reset password
       .addCase(resetPass.pending, (state) => {
         state.loading = true
         state.error = null
@@ -152,10 +158,11 @@ export const authSlice = createSlice({
       })
       .addCase(resetPass.rejected, (state, action) => {
         state.loading = false
-        state.error = action.error.message
+        state.error = action.payload.error
         state.message = null
       })
-
+    
+    // email verify
       .addCase(emailVerify.pending, (state) => {
         state.loading = true
         state.error = null
@@ -167,7 +174,7 @@ export const authSlice = createSlice({
       })
       .addCase(emailVerify.rejected, (state, action) => {
         state.loading = false
-        state.error = action.error.message
+        state.error = action.payload.error
         state.message = null
       })
   }
