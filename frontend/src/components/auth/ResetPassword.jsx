@@ -1,14 +1,20 @@
 import React, { useState } from "react";
+
+// components
 import Input from "../common/Input";
+import Button from "../common/Button";
+
+// redux
 import { useDispatch, useSelector } from "react-redux";
 import { resetPass } from "../../features/auth/authSlice";
 import { useParams } from "react-router";
+ 
+
 
 export default function ResetPassword() {
   
   const { token } = useParams();
-  const dispatch = useDispatch();
-  const { error, message } = useSelector((state) => state.auth);
+  const dispatch = useDispatch(); 
   const [data , setData] = useState({password: ""})
 
   const handleResetPass = ()=>{
@@ -22,9 +28,7 @@ export default function ResetPassword() {
 
         <Input onChange={(e)=> setData({password: e.target.value})} type="password" icon={`password`} placeholder="Enter new password" />
   
-        <button onClick={handleResetPass} className="mt-7 h-12 w-full cursor-pointer rounded-md bg-white px-2 text-sm font-medium text-zinc-800 shadow-xl">
-          Re-set password
-        </button>
+        <Button onClick={handleResetPass} btnText={"Reset password"} />
         
       </div>
     </div>

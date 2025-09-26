@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import Input from "../common/Input";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { forgetPass } from "../../features/auth/authSlice";
+import Button from "../common/Button";
 
 export default function ForgetPassword({}) {
   
   const [mail , setMail] = useState({email: ""})
-  const dispatch = useDispatch();
-  const { error, message } = useSelector((state) => state.auth);
+  const dispatch = useDispatch(); 
   
   const handleGetResetLink = ()=>{
     dispatch(forgetPass(mail))
@@ -19,9 +19,9 @@ export default function ForgetPassword({}) {
       <div className="flex  flex-col gap-4 text-sm">
         <Input onChange={(e)=>setMail({email: e.target.value})} type="email" icon={`email`} placeholder="Your email" /> 
       </div>
-      <button onClick={handleGetResetLink} className="mt-7 h-12 w-full cursor-pointer rounded-md bg-white px-2 text-sm font-medium text-zinc-800 shadow-xl">
-        Send reset link
-      </button>
+      
+      <Button onClick={handleGetResetLink} btnText='Get reset link' />
+
     </div>
   );
 }
