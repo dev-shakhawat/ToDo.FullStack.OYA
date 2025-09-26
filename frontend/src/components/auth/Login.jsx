@@ -15,6 +15,14 @@ export default function Login({setCurrentPage}) {
   const dispatch = useDispatch();
   const [loginForm , setLoginForm] = useState({ email: "", password: "" })
  
+
+  const handleLogin=()=>{
+
+    console.log("clicked");
+    
+    dispatch(login(loginForm))
+  }
+ 
   return (
     <div className=' '>
       
@@ -32,7 +40,7 @@ export default function Login({setCurrentPage}) {
       
 
       {/* button login */}
-      <Button onClick={()=>dispatch(login(loginForm))} btnText='Login' />
+      <Button onClick={handleLogin} btnText='Login' />
 
     </div>
 

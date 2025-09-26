@@ -1,13 +1,20 @@
 import React, { useState } from "react";
 import Input from "../common/Input";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../common/Button";
-import { registration } from "../../features/auth/authSlice";
+import { clearStatus, registration } from "../../features/auth/authSlice";
 
 export default function Registration() {
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
   const [regForm , setRegForm] = useState({username: "", email: "", password: ""})
+
+  const handleRegistration=()=>{
+    console.log("clicked");
+    
+    dispatch(registration(regForm))
+    // setTimeout(() => dispatch(clearStatus()), 1500);
+  }
 
   return (
     <div className=" ">
@@ -19,7 +26,7 @@ export default function Registration() {
       </div>
       
       {/* button register */}
-      <Button onClick={()=>dispatch(registration(regForm))} btnText='Create an account' />
+      <Button onClick={handleRegistration} btnText='Create an account' />
     </div>
   );
 }

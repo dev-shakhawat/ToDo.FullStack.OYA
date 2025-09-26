@@ -24,7 +24,7 @@ async function forgetPass(req , res){
         const forgotToken = jwt.sign({ _id: user._id}, process.env.FORGET_PASS_TOKEN_SECRET, { expiresIn: '10m' });
 
         // verification link
-        const link = `${process.env.CLIENT_URL}/resetPass/${forgotToken}`;
+        const link = `${process.env.CLIENT_URL}/reset-password/${forgotToken}`;
 
         await sendUserMail(email , "Forgot Password" , `<h2>Please click <a href="${link}">reset password</a> to complete your password reset.  </h2>`)  // send mail to user
 
