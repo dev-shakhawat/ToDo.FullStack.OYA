@@ -17,6 +17,7 @@ export default function Input({ type, placeholder , value , icon , onChange  }) 
   return (
     <div className={`relative h-11 overflow-hidden   `}>
       <input
+        autoComplete="on"
         type={inputType}
         value={value}
         onChange={onChange}

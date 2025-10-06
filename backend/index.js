@@ -17,6 +17,10 @@ app.use(
     credentials: true,
   })
 );
+
+
+
+
 app.use("/", routes); // all routes/api's likned here
 
 // start server

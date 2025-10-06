@@ -17,7 +17,7 @@ export default function ResetPassword() {
   const dispatch = useDispatch(); 
   const [data , setData] = useState({password: ""})
 
-  const handleResetPass = ()=>{
+  const handleResetPass = ()=>{ 
     dispatch(resetPass(token , data))
   }
 

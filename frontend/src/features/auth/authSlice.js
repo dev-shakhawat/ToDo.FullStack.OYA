@@ -1,21 +1,24 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as authApi from "./authApi";
 
-export const registration = createAsyncThunk(
+// -----------------------
+// 🔹 Thunks
+// -----------------------
+
+export const registerUser = createAsyncThunk(
   "auth/registration",
   async (data, { rejectWithValue }) => {
     try {
       console.log("thunk");
-      
       const res = await authApi.registration(data);
       return res.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response?.data);
     }
   }
 );
 
-export const login = createAsyncThunk(
+export const loginUser = createAsyncThunk(
   "auth/login",
   async (data, { rejectWithValue }) => {
     try {
@@ -23,19 +26,19 @@ export const login = createAsyncThunk(
       return res.data;
     } catch (error) {
       console.log(data);
-      return rejectWithValue(error.response.data || "Login failed");
+      return rejectWithValue(error.response?.data || "Login failed");
     }
   }
 );
 
 export const refresh = createAsyncThunk(
   "auth/refresh",
-  async (data, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       const res = await authApi.refresh();
       return res.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response?.data);
     }
   }
 );
@@ -47,19 +50,19 @@ export const forgetPass = createAsyncThunk(
       const res = await authApi.forgetPass(data);
       return res.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response?.data);
     }
   }
 );
 
 export const resetPass = createAsyncThunk(
   "auth/reset-password",
-  async (token, data, { rejectWithValue }) => {
+  async ({ token, data }, { rejectWithValue }) => {
     try {
       const res = await authApi.resetPass(token, data);
       return res.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response?.data);
     }
   }
 );
@@ -71,11 +74,14 @@ export const emailVerify = createAsyncThunk(
       const res = await authApi.emailVerify(data);
       return res.data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.response?.data);
     }
   }
 );
- 
+
+// -----------------------
+// 🔹 Slice
+// -----------------------
 
 export const authSlice = createSlice({
   name: "auth",
@@ -95,94 +101,106 @@ export const authSlice = createSlice({
       state.error = null;
       state.message = null;
     },
- 
   },
-  extraReducers(builder) {
+  extraReducers: (builder) => {
     builder
-
-      // login
-      .addCase(login.pending, (state) => (state.loading = true))
-
-      .addCase(login.fulfilled, (state, action) => {
-        state.loading = false;
-        state.user = action.payload.user;
-        state.accessToken = action.payload.accessToken;
-        state.message = action.payload.message; 
-      })
-      .addCase(login.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-        state.message = null; 
-      })
-
-      // registration
-      .addCase(registration.pending, (state) => state.loading = true)
-
-      .addCase(registration.fulfilled, (state, action) => {
+      // -----------------------
+      // 🔸 Login
+      // -----------------------
+      .addCase(loginUser.pending, (state) => { state.loading = true })
+      .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
         state.accessToken = action.payload.accessToken;
         state.message = action.payload.message;
-        state.error = action.payload.error; 
+        state.error = null;
       })
-      .addCase(registration.rejected, (state, action) => {
+      .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload?.error;
-        state.message = state.message = action.payload?.message; 
+        state.error = action.payload;
+        state.message = null;
       })
 
-      // refresh
-      .addCase(refresh.pending, (state) => state.loading = true)
+      // -----------------------
+      // 🔸 Registration
+      // -----------------------
+      .addCase(registerUser.pending, (state) => { state.loading = true })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.user;
+        state.accessToken = action.payload.accessToken;
+        state.message = action.payload.message;
+        state.error = action.payload.error || null;
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.error;
+        state.message = action.payload?.message || null;
+      })
+
+      // -----------------------
+      // 🔸 Refresh Token
+      // -----------------------
+      .addCase(refresh.pending, (state) => { state.loading = true })
       .addCase(refresh.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
         state.accessToken = action.payload.accessToken;
-        state.message = action.payload.message; 
+        state.message = action.payload.message;
+        state.error = null;
       })
       .addCase(refresh.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload.error;
-        state.message = null; 
+        state.error = action.payload?.error;
+        state.message = null;
       })
 
-      // forget password
-      .addCase(forgetPass.pending, (state) => state.loading = true )
+      // -----------------------
+      // 🔸 Forget Password
+      // -----------------------
+      .addCase(forgetPass.pending, (state) => { state.loading = true })
       .addCase(forgetPass.fulfilled, (state, action) => {
         state.loading = false;
-        state.message = action.payload.message; 
+        state.message = action.payload.message;
+        state.error = null;
       })
       .addCase(forgetPass.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload.error;
-        state.message = action.payload.message; 
+        state.error = action.payload?.error;
+        state.message = action.payload?.message;
       })
 
-      // reset password
-      .addCase(resetPass.pending, (state) => state.loading = true )
+      // -----------------------
+      // 🔸 Reset Password
+      // -----------------------
+      .addCase(resetPass.pending, (state) => { state.loading = true })
       .addCase(resetPass.fulfilled, (state, action) => {
         state.loading = false;
-        state.message = action.payload.message; 
+        state.message = action.payload.message;
+        state.error = null;
       })
       .addCase(resetPass.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        state.message = action.payload; 
+        state.message = null;
       })
 
-      // email verify
-      .addCase(emailVerify.pending, (state) =>  state.loading = true)
+      // -----------------------
+      // 🔸 Email Verify
+      // -----------------------
+      .addCase(emailVerify.pending, (state) => { state.loading = true })
       .addCase(emailVerify.fulfilled, (state, action) => {
-        state.error = action.payload.error;
-        state.message = action.payload.message; 
+        state.loading = false;
+        state.error = action.payload.error || null;
+        state.message = action.payload.message || null;
       })
       .addCase(emailVerify.rejected, (state, action) => {
-        state.error = action.payload.error;
-        state.message = action.payload.message; 
+        state.loading = false;
+        state.error = action.payload?.error;
+        state.message = action.payload?.message;
       });
   },
 });
 
-// Action creators are generated for each case reducer function
-export const { logout , clearStatus } = authSlice.actions;
-
+export const { logout, clearStatus } = authSlice.actions;
 export default authSlice.reducer;

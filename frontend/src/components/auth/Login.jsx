@@ -8,19 +8,16 @@ import { useDispatch } from 'react-redux'
 
 // icons 
 import Button from '../common/Button';
-import { login } from '../../features/auth/authSlice';
+import { loginUser } from '../../features/auth/authSlice';
 
 export default function Login({setCurrentPage}) {
    
   const dispatch = useDispatch();
   const [loginForm , setLoginForm] = useState({ email: "", password: "" })
  
-
   const handleLogin=()=>{
-
-    console.log("clicked");
     
-    dispatch(login(loginForm))
+    dispatch(loginUser(loginForm))
   }
  
   return (

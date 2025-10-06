@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { emailVerify } from "../../features/auth/authSlice";
+import { clearStatus, emailVerify } from "../../features/auth/authSlice";
 
 export default function VerifyToken() {
   const { token } = useParams();
@@ -11,6 +11,9 @@ export default function VerifyToken() {
   useEffect(() => {
     if (token) {
       dispatch(emailVerify(token));
+      setTimeout(() => {
+        dispatch(clearStatus())
+      }, 2000);
     }
   }, []);
 
