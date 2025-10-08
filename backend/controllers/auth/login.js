@@ -20,7 +20,7 @@ async function login(req , res){
 
         const user = await userSchema.findOne({ email })  // find user in database
 
-        if(!user) return res.status(400).send({ success: false , message : "Invalid request" })  // user not found
+        if(!user) return res.status(400).send({ success: false , message : "Invalid credentials" })  // user not found
         
 
         // user not verified

@@ -4,8 +4,16 @@ const dbConfigaration = require("./configurations/dbConfig");
 const app = express();
 const routes = require("./routes");
 const cors = require("cors");
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
+
+
+
+
+
 
 app.use(express.json()); // json parser
+app.use("/uploads" , express.static("uploads"))
 app.use(express.urlencoded({ extended: true }))
 
 dbConfigaration(); // connect to database
@@ -19,6 +27,27 @@ app.use(
 );
 
 
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "ToDo App API",
+      version: "1.0.0",
+      description: "A simple ToDo App API",
+    },
+    servers: [
+      {
+        url: "http://localhost:8080",
+      },
+    ],
+  },
+  apis: ["./routes/**/*.js"],
+};
+
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
+ 
 
 
 app.use("/", routes); // all routes/api's likned here

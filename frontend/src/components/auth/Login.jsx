@@ -8,16 +8,29 @@ import { useDispatch } from 'react-redux'
 
 // icons 
 import Button from '../common/Button';
-import { loginUser } from '../../features/auth/authSlice';
+import { clearStatus, loginUser, notify } from '../../features/auth/authSlice';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 export default function Login({setCurrentPage}) {
    
   const dispatch = useDispatch();
   const [loginForm , setLoginForm] = useState({ email: "", password: "" })
  
-  const handleLogin=()=>{
-    
-    dispatch(loginUser(loginForm))
+  const handleLogin= async ()=>{
+ 
+      try {
+        const resultAction = await dispatch(loginUser(loginForm))
+        const result = unwrapResult(resultAction);   
+        
+      } catch (error) {
+        console.log( error);
+      } finally {
+        setTimeout(() => {
+          dispatch(notify(false))
+          dispatch(clearStatus());
+        }, 2000);
+      }
+
   }
  
   return (

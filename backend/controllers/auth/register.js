@@ -38,7 +38,7 @@ async function register(req, res) {
             ); 
             
             // verification link
-            const link = `${process.env.CLIENT_URL}/verify/${accessToken}`;
+            const link = `${process.env.CLIENT_URL}/auth/verify-token/${accessToken}`;
 
             await sendUserMail(
                 email, 

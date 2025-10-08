@@ -91,6 +91,7 @@ export const authSlice = createSlice({
     loading: false,
     error: null,
     message: null,
+    notification: false
   },
   reducers: {
     logout: (state) => {
@@ -101,6 +102,9 @@ export const authSlice = createSlice({
       state.error = null;
       state.message = null;
     },
+    notify: (state , action) => {
+      state.notification = action.payload
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -110,14 +114,17 @@ export const authSlice = createSlice({
       .addCase(loginUser.pending, (state) => { state.loading = true })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
+        state.notification = true
         state.user = action.payload.user;
         state.accessToken = action.payload.accessToken;
         state.message = action.payload.message;
         state.error = null;
       })
       .addCase(loginUser.rejected, (state, action) => {
+ 
+        state.notification = true
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload.message;
         state.message = null;
       })
 
@@ -126,6 +133,7 @@ export const authSlice = createSlice({
       // -----------------------
       .addCase(registerUser.pending, (state) => { state.loading = true })
       .addCase(registerUser.fulfilled, (state, action) => {
+        state.notification = true
         state.loading = false;
         state.user = action.payload.user;
         state.accessToken = action.payload.accessToken;
@@ -133,6 +141,7 @@ export const authSlice = createSlice({
         state.error = action.payload.error || null;
       })
       .addCase(registerUser.rejected, (state, action) => {
+        state.notification = true
         state.loading = false;
         state.error = action.payload?.error;
         state.message = action.payload?.message || null;
@@ -190,11 +199,13 @@ export const authSlice = createSlice({
       // -----------------------
       .addCase(emailVerify.pending, (state) => { state.loading = true })
       .addCase(emailVerify.fulfilled, (state, action) => {
+        state.notification = true
         state.loading = false;
         state.error = action.payload.error || null;
         state.message = action.payload.message || null;
       })
       .addCase(emailVerify.rejected, (state, action) => {
+        state.notification = true
         state.loading = false;
         state.error = action.payload?.error;
         state.message = action.payload?.message;
@@ -202,5 +213,5 @@ export const authSlice = createSlice({
   },
 });
 
-export const { logout, clearStatus } = authSlice.actions;
+export const { logout, clearStatus , notify } = authSlice.actions;
 export default authSlice.reducer;
