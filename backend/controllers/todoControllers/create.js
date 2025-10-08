@@ -46,7 +46,7 @@ async function createTodo(req , res){
                     fs.unlinkSync(filePath); 
                     }
                 }
-        return res.status(400).send({ error: error.message || "user registration failed" })  // send error message to client
+        return res.status(400).send({ error: error.message || "Something went wrong" })  // send error message to client
     }
 }
 

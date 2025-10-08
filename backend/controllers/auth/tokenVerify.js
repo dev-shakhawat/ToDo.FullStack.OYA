@@ -16,7 +16,7 @@ async function emailVerify(req , res){
         return res.status(200).send({ success: true , message : "Account verified successfully" })  // send success message to client
 
     }catch(error){
-        res.status(400).send({ error: error.message || "user registration failed" })  // send error message to client
+        res.status(400).send({ error: error.message || "Account verification failed" })  // send error message to client
     }
 }
 

@@ -25,7 +25,7 @@ async function refreshController(req , res){
          })
 
     }catch(error){
-        res.status(400).send({ error: error.message || "user registration failed" })  // send error message to client
+        res.status(400).send({ error: error.message || "Something went wrong" })  // send error message to client
     }
 }
 

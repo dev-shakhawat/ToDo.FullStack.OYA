@@ -8,7 +8,7 @@ async function authMiddlewere(req , res , next) {
         const header = req.headers.authorization  // get header from request
         
         
-        if(!header) return res.status(400).send({ success: false , message : "Authentication failed 11" })  // header not found
+        if(!header) return res.status(400).send({ success: false , message : "Authentication failed" })  // header not found
         
         const token = header.split(" ")[1]  // get token from header
         
@@ -16,7 +16,7 @@ async function authMiddlewere(req , res , next) {
         // verify token 
         jwt.verify(token , process.env.REFRESH_TOKEN_SECRET , (error , decodedToken)=>{
 
-            if(error) return res.status(400).send({ success: false , message : "Authentication failed 19" })  // token not valid
+            if(error) return res.status(400).send({ success: false , message : "Authentication failed" })  // token not valid
 
             req.user = decodedToken
 
@@ -25,7 +25,7 @@ async function authMiddlewere(req , res , next) {
         })  
 
     }catch(error){
-        return res.status(400).send({ error: error.message || "Authentication failed 26" })  // send error message to client
+        return res.status(400).send({ error: error.message || "Authentication failed" })  // send error message to client
     }
 }
 
