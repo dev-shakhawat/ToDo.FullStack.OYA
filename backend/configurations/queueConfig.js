@@ -1,6 +1,6 @@
 const Queue = require('bull');
 
-const emailqueue = new Queue('emailqueue' , {
+const queue = new Queue('queue' , {
     redis: {
         host: 'redis-18712.c325.us-east-1-4.ec2.redns.redis-cloud.com',
         port: 18712,
@@ -9,4 +9,4 @@ const emailqueue = new Queue('emailqueue' , {
     }
 });
 
-module.exports = emailqueue
+module.exports = queue

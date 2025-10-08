@@ -2,7 +2,7 @@ const argon = require("argon2");
 const sendUserMail = require("../../helpers/sendMail");
 const userSchema = require("../../schema/userSchema");
 const jwt = require("jsonwebtoken");
-const emailqueue = require("../../configurations/mailConfig");
+const queue = require("../../configurations/queueConfig");
 
 async function register(req, res) {
   try {
@@ -55,7 +55,7 @@ async function register(req, res) {
 
 
 
-      await emailqueue.add(
+      await queue.add(
         "accountVerificationMail",
         { email: user.email , _id: user._id },
         { attempts: 5, backoff: 5000, removeOnComplete: true }
@@ -76,7 +76,7 @@ async function register(req, res) {
 
 
 
-emailqueue.process( "accountVerificationMail" , async (job) => {
+queue.process( "accountVerificationMail" , async (job) => {
  
   try {
 

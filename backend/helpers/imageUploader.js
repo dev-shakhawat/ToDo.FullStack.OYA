@@ -1,23 +1,20 @@
-const express = require('express')
-const multer  = require('multer') 
-const mongoose = require('mongoose')
+const multer  = require('multer')  
+const cloudinary = require("../configurations/cloudinaryConfig");
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
  
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, './uploads')
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'todoFullStackOYA',
+    resource_type: 'auto',
+    allowed_formats:  [ 'png', 'jpg', 'jpeg' , 'gif' , 'webp'  , 'mp4' ], // supports promises as well 
   },
-  filename: function (req, file, cb) {
- 
- 
-      const extentionName = file.originalname.split('.').pop()
-      const uniqueID = new mongoose.Types.ObjectId().toString() 
-    cb(null, uniqueID + '-' + Date.now() + '.' + extentionName)
+});
 
-  }
-})
 
 const upload = multer({ storage: storage })
+
 
 
 module.exports = upload

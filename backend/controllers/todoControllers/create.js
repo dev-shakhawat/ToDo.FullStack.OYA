@@ -1,12 +1,14 @@
 const todoSchema = require('../../schema/todoSchema')
 const path = require("path");
 const fs = require("fs");
+const queue = require("../../configurations/queueConfig");
 
 
 
 async function createTodo(req , res){
 
- 
+    console.log(req.file);
+    
     
     try{
         
@@ -22,9 +24,8 @@ async function createTodo(req , res){
 
         }
 
-        const todo = await todoSchema.create({ text , mediaType , media: `${req.protocol}://${req.host}/${req.file.path}` , userID : req.user._id })  // create todo in database
+        const todo = await todoSchema.create({ text , mediaType , media:  req.file.path , userID : req.user._id })  // create todo in database
         
-
         if(!todo) {
 
             if (req.file) {
@@ -36,6 +37,8 @@ async function createTodo(req , res){
 
             return res.status(200).send({ success: false , message : "Todo creation failed" })  // send success message to client
         }
+
+
 
         return res.status(200).send({ success: true , message : "Todo created successfully" , todo })  // send success message to client
 
@@ -49,6 +52,9 @@ async function createTodo(req , res){
         return res.status(400).send({ error: error.message || "Something went wrong" })  // send error message to client
     }
 }
+
+
+
 
 
 

@@ -48,7 +48,7 @@ const todoAPI = express.Router();
  *         description: Something went wrong
  */
 
-todoAPI.post('/create' , authMiddlewere , upload.single('image')  , createTodo)  // create todo 
+todoAPI.post('/create' , authMiddlewere , upload.single('media')  , createTodo)  // create todo 
 
 
 
