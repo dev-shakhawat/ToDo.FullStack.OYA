@@ -1,22 +1,19 @@
-const express = require('express'); 
-const createTodo = require('../../controllers/todoControllers/create');
-const authMiddlewere = require('../../middleweres/authMiddlewere');
-const upload = require('../../helpers/imageUploader');
-const getAllTodo = require('../../controllers/todoControllers/getAll');
-const updateTodo = require('../../controllers/todoControllers/update');
-const deleteTodo = require('../../controllers/todoControllers/delete');
+const express = require("express");
+const createTodo = require("../../controllers/todoControllers/create");
+const authMiddlewere = require("../../middleweres/authMiddlewere");
+const upload = require("../../helpers/mediaUploader");
+const getAllTodo = require("../../controllers/todoControllers/getAll");
+const updateTodo = require("../../controllers/todoControllers/update");
+const deleteTodo = require("../../controllers/todoControllers/delete");
+const mediaUploadMiddlewere = require("../../middleweres/mediaUploadMiddlewere");
 const todoAPI = express.Router();
 
- 
 /**
  * @swagger
  * tags:
  *   - name: Todo
  *     description: Todo Task Management
  */
-
-
-
 
 /**
  * @swagger
@@ -48,9 +45,7 @@ const todoAPI = express.Router();
  *         description: Something went wrong
  */
 
-todoAPI.post('/create' , authMiddlewere , upload.single('media')  , createTodo)  // create todo 
-
-
+todoAPI.post("/create", authMiddlewere, upload.single("media") , createTodo); // create todo
 
 /**
  * @swagger
@@ -60,15 +55,14 @@ todoAPI.post('/create' , authMiddlewere , upload.single('media')  , createTodo) 
  *     description: using this api you can get all todo task. Requires Bearer token authentication.
  *     tags: [Todo]
  *     security:
- *       - bearerAuth: [] 
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Todo fetched successfully
  *       400:
  *         description: Something went wrong
  */
-todoAPI.get('/getall' , authMiddlewere ,  getAllTodo)  // get all todo
-
+todoAPI.get("/getall", authMiddlewere, getAllTodo); // get all todo
 
 /**
  * @swagger
@@ -78,7 +72,7 @@ todoAPI.get('/getall' , authMiddlewere ,  getAllTodo)  // get all todo
  *     description: using this api you can update todo task. Requires Bearer token authentication.
  *     tags: [Todo]
  *     security:
- *       - bearerAuth: [] 
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -98,9 +92,7 @@ todoAPI.get('/getall' , authMiddlewere ,  getAllTodo)  // get all todo
  *       400:
  *         description: Something went wrong
  */
-todoAPI.put('/update/:id' , authMiddlewere , upload.single('image')  ,  updateTodo)  // get all todo
-
-
+todoAPI.put("/update/:id", authMiddlewere, upload.single("image"), updateTodo); // get all todo
 
 /**
  * @swagger
@@ -110,16 +102,13 @@ todoAPI.put('/update/:id' , authMiddlewere , upload.single('image')  ,  updateTo
  *     description: using this api you can delete todo task. Requires Bearer token authentication.
  *     tags: [Todo]
  *     security:
- *       - bearerAuth: [] 
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Deleted successfully
  *       400:
  *         description: Something went wrong
  */
-todoAPI.delete('/delete/:id' , authMiddlewere ,  deleteTodo)  // get all todo
+todoAPI.delete("/delete/:id", authMiddlewere, deleteTodo); // get all todo
 
-
-
-
-module.exports = todoAPI
+module.exports = todoAPI;

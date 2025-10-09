@@ -6,7 +6,7 @@ const routes = require("./routes");
 const cors = require("cors");
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
-
+const { rateLimit } = require('express-rate-limit') 
 
 
 
@@ -15,6 +15,17 @@ const swaggerJsdoc = require('swagger-jsdoc');
 app.use(express.json()); // json parser
 app.use("/uploads" , express.static("uploads"))
 app.use(express.urlencoded({ extended: true }))
+
+
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	limit: 500, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+	standardHeaders: true , // draft-6: `RateLimit-*` headers; draft-7 & draft-8: combined `RateLimit` header
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers. 
+  message: { error: 'Too many requests, please try again after 15 minutes later.' },
+})
+
+
 
 dbConfigaration(); // connect to database
 
@@ -26,6 +37,8 @@ app.use(
   })
 );
 
+
+app.use(limiter)
 
 const swaggerOptions = {
   definition: {

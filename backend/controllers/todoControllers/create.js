@@ -6,8 +6,7 @@ const queue = require("../../configurations/queueConfig");
 
 
 async function createTodo(req , res){
-
-    console.log(req.file);
+ 
     
     
     try{
