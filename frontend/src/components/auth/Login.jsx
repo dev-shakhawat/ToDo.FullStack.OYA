@@ -11,11 +11,13 @@ import Button from '../common/Button';
 import { clearStatus, loginUser, notify } from '../../features/auth/authSlice';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { setAccessToken } from '../../api';
+import { useNavigate } from 'react-router';
 
 export default function Login({setCurrentPage}) {
    
   const dispatch = useDispatch();
   const [loginForm , setLoginForm] = useState({ email: "", password: "" })
+  const navigate = useNavigate();
  
   const handleLogin= async ()=>{
  
@@ -53,7 +55,7 @@ export default function Login({setCurrentPage}) {
       </div>
 
       {/* forget password */}
-      <button onClick={()=>setCurrentPage("forgetPass")} type="button" className='mt-1 cursor-pointer hover:underline  '>Forget password?</button>
+      <button onClick={()=>navigate("/auth/forget-password")} type="button" className='mt-1 cursor-pointer hover:underline  '>Forget password?</button>
       
 
       {/* button login */}
