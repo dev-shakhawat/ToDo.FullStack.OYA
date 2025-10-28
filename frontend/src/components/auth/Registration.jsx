@@ -26,7 +26,7 @@ const handleRegistration = async () => {
 }; 
 
   return (
-    <div className=" "> 
+    <div className="bgimage "> 
 
       <h2 className="mb-7 text-[1.4rem] font-medium">Create an account</h2>
       <div className="flex  flex-col gap-4 text-sm">

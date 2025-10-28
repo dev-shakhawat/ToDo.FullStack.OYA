@@ -3,7 +3,6 @@ const userSchema = require('../../schema/userSchema');
 const jwt = require('jsonwebtoken');
 
 async function login(req , res){
-
     
     try{
 
@@ -45,7 +44,6 @@ async function login(req , res){
         });
 
         return res.status(200).send({ success: true , message : "Login successfully" , userName: user.username , email: user.email  , accessToken })
-
 
 
     }catch(error){

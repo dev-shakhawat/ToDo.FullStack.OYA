@@ -14,7 +14,7 @@ export default function ForgetPassword({}) {
   }
   
   return (
-    <div className=" ">
+    <div className="bgimage  ">
       <h2 className="mb-7 text-[1.4rem] font-medium">Forgot your password?</h2>
       <div className="flex  flex-col gap-4 text-sm">
         <Input onChange={(e)=>setMail({email: e.target.value})} type="email" icon={`email`} placeholder="Your email" /> 

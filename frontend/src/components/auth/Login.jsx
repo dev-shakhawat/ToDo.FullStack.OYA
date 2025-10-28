@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux'
 import Button from '../common/Button';
 import { clearStatus, loginUser, notify } from '../../features/auth/authSlice';
 import { unwrapResult } from '@reduxjs/toolkit';
+import { setAccessToken } from '../../api';
 
 export default function Login({setCurrentPage}) {
    
@@ -20,7 +21,13 @@ export default function Login({setCurrentPage}) {
  
       try {
         const resultAction = await dispatch(loginUser(loginForm))
-        const result = unwrapResult(resultAction);   
+        const result = unwrapResult(resultAction); 
+
+        if ( resultAction.payload.message ) { 
+           localStorage.setItem('todoUser' , JSON.stringify(resultAction.payload))
+        }
+
+        setAccessToken(resultAction.payload.accessToken) 
         
       } catch (error) {
         console.log( error);
@@ -34,7 +41,7 @@ export default function Login({setCurrentPage}) {
   }
  
   return (
-    <div className=' '>
+    <div className='bgimage  '>
       
       {/* page title */}
       <h2 className="mb-7 text-[1.4rem] font-medium">Login your account</h2>

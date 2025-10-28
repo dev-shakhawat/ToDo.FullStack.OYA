@@ -94,6 +94,7 @@ todoAPI.get("/getall", authMiddlewere, getAllTodo); // get all todo
  */
 todoAPI.put("/update/:id", authMiddlewere, upload.single("image"), updateTodo); // get all todo
 
+
 /**
  * @swagger
  * /todo/delete/{id}:
@@ -110,5 +111,6 @@ todoAPI.put("/update/:id", authMiddlewere, upload.single("image"), updateTodo); 
  *         description: Something went wrong
  */
 todoAPI.delete("/delete/:id", authMiddlewere, deleteTodo); // get all todo
+
 
 module.exports = todoAPI;

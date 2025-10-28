@@ -4,16 +4,14 @@ const cloudinary = require("../../configurations/cloudinaryConfig");
 const Redis = require('ioredis') 
 const mongoose = require('mongoose');
 
-// const redis = createClient({
-//     url: 'redis-18712.c325.us-east-1-4.ec2.redns.redis-cloud.com:18712'
 
-// })
+
 
 const redis = new Redis({
-  host: 'redis-18712.c325.us-east-1-4.ec2.redns.redis-cloud.com', 
-  port: 18712, 
+  host: 'redis-15856.c98.us-east-1-4.ec2.redns.redis-cloud.com', 
+  port: 15856, 
   username: 'default',
-  password: '2ct5ZDC2QxWEXUKXir7j8f3ynsFZxX7x'
+  password: 'KPDfSq0pvBlJdMN2qHg8j5Up10jdB335'
 });
 
 redis.on('error', (err) => console.log('Redis Client Error', err)) 

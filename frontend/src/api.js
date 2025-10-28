@@ -11,7 +11,7 @@ const refreshApi = axios.create({
   withCredentials: true
 });
 
-let accessToken = null
+let accessToken = localStorage.getItem("todoUser") ? JSON.parse(localStorage.getItem("todoUser")).accessToken : null
 
 export const setAccessToken = (token) => accessToken = token 
 
