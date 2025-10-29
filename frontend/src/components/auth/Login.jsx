@@ -25,11 +25,13 @@ export default function Login({setCurrentPage}) {
         const resultAction = await dispatch(loginUser(loginForm))
         const result = unwrapResult(resultAction); 
 
+
         if ( resultAction.payload.message ) { 
            localStorage.setItem('todoUser' , JSON.stringify(resultAction.payload))
+           setAccessToken(resultAction.payload.accessToken) 
+           navigate("/")
         }
 
-        setAccessToken(resultAction.payload.accessToken) 
         
       } catch (error) {
         console.log( error);
@@ -46,7 +48,7 @@ export default function Login({setCurrentPage}) {
     <div className='bgimage  '>
       
       {/* page title */}
-      <h2 className="mb-7 text-[1.4rem] font-medium">Login your account</h2>
+      <h2 className="mb-7 text-[1.4rem] font-medium text-white  ">Login your account</h2>
 
       {/* form */}
       <div className="flex  flex-col gap-4 text-sm">  
@@ -55,7 +57,7 @@ export default function Login({setCurrentPage}) {
       </div>
 
       {/* forget password */}
-      <button onClick={()=>navigate("/auth/forget-password")} type="button" className='mt-1 cursor-pointer hover:underline  '>Forget password?</button>
+      <button onClick={()=>navigate("/auth/forget-password")} type="button" className='mt-1 cursor-pointer hover:underline  text-white '>Forget password?</button>
       
 
       {/* button login */}

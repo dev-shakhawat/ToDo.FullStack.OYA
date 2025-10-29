@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router';
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router';
 
 import logo from "../../../src/assets/images/logo.png"
 
@@ -8,6 +8,7 @@ export default function AuthLayout() {
     const location = useLocation();
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [isLoaded, setIsLoaded] = useState(false);
+    const params = useParams()
 
     useEffect(() => {
         setIsLoaded(true);
@@ -17,8 +18,9 @@ export default function AuthLayout() {
         window.addEventListener('mousemove', handleMouseMove);
         return () => window.removeEventListener('mousemove', handleMouseMove);
     }, []);
+ 
 
-    return (
+    return ( 
         <div className="min-h-screen bg-black relative overflow-hidden font-sans">
             {/* Animated Gradient Background */}
             <div className="absolute inset-0">
@@ -64,12 +66,14 @@ export default function AuthLayout() {
             />
 
             {/* Main Content */}
+            {params.token ? <Outlet/> :
             <div className="relative z-10 flex min-h-screen items-center justify-center p-4">
                 <div className={`w-full max-w-md transition-all duration-1000 ${
                     isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                 }`}>
                     
                     {/* Glass Card */}
+
                     <div className="bg-white/5 backdrop-blur-2xl rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
                         
                         {/* Premium Header */}
@@ -81,10 +85,10 @@ export default function AuthLayout() {
 
                             <div className="text-center mb-2">
                                 <h1 className="text-3xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                                    QuantumAuth
+                                    QuantumTask
                                 </h1>
                                 <p className="text-white/60 text-sm mt-2">
-                                    Secure Access Portal
+                                    Quantum Secure {location.pathname.split("/")[2]} System
                                 </p>
                             </div>
 
@@ -92,9 +96,9 @@ export default function AuthLayout() {
                             <div className="flex bg-white/5 rounded-2xl p-1.5 mt-6 border border-white/5">
                                 <button
                                     onClick={() => navigate("/auth/login")}
-                                    className={`flex-1 py-3.5 px-4 rounded-xl text-sm font-semibold transition-all duration-500  ${
+                                    className={` cursor-pointer flex-1 py-3.5 px-4 rounded-xl text-sm font-semibold transition-all duration-500  ${
                                         location.pathname.includes("login") 
-                                            ? 'bg-gradient-to-r from-purple-500 to-cyan-500 text-white shadow-lg shadow-purple-500/25'
+                                            ? 'bg-gradient-to-r from-purple-500 to-cyan-500 text-white    '
                                             : 'text-white/70 hover:text-white '
                                     }`}
                                 >
@@ -102,9 +106,9 @@ export default function AuthLayout() {
                                 </button>
                                 <button
                                     onClick={() => navigate("/auth/registration")}
-                                    className={`flex-1 py-3.5 px-4 rounded-xl text-sm font-semibold transition-all duration-500 ${
+                                    className={` cursor-pointer flex-1 py-3.5 px-4 rounded-xl text-sm font-semibold transition-all duration-500 ${
                                         location.pathname.includes("registration") 
-                                            ? 'bg-gradient-to-r from-purple-500 to-cyan-500 text-white shadow-lg shadow-purple-500/25'
+                                            ? 'bg-gradient-to-r from-purple-500 to-cyan-500 text-white   '
                                             : 'text-white/70 hover:text-white hover:bg-white/5'
                                     }`}
                                 >
@@ -153,6 +157,7 @@ export default function AuthLayout() {
                     </div>
                 </div>
             </div>
+             }
 
             {/* Floating Elements */}
             <div className="absolute top-1/4 left-1/4 w-4 h-4 bg-cyan-400/20 rounded-full animate-float-slow" />

@@ -21,7 +21,7 @@ export default function Input({ type, placeholder , value , icon , onChange  }) 
         type={inputType}
         value={value}
         onChange={onChange}
-        className={`peer relative z-1 h-full w-full rounded-md border border-white/8 bg-white/2 ${icon ? type == "password" ? "pl-11 pr-8" : "pl-11 pr-4" : "px-4"}  duration-300 placeholder:text-white/20 focus:outline-0`}
+        className={`peer text-white relative z-1 h-full w-full rounded-md border border-white/8 bg-white/2 ${icon ? type == "password" ? "pl-11 pr-8" : "pl-11 pr-4" : "px-4"}  duration-300 placeholder:text-white/20 focus:outline-0`}
         placeholder={placeholder}
       />
 

@@ -1,17 +1,14 @@
-import React, { use, useEffect } from 'react'
-import { useSelector } from 'react-redux'; 
-import { useNavigate } from 'react-router';
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
 export default function Home() {
+  const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
-    const { user } = useSelector((state) => state.auth);
-    const navigate = useNavigate();
+  useEffect(() => {
+    if (!user) navigate("/auth/login");
+  }, []);
 
-    useEffect(()=> {
-       if(!user) navigate('/auth/login')
-    } , [user])
-
-  return (
-    <div className='text-white text-4xl font-bold   '>Home</div> 
-  )
+  return <div className="text-white text-4xl font-bold   "> </div>;
 }

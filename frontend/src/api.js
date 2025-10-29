@@ -19,7 +19,9 @@ api.interceptors.request.use( async (config) => {
 
     try{
         console.log("this is before request")
-    
+        console.log(accessToken);
+        
+        
         if(accessToken) {
             const decodedToken = jwtDecode(accessToken)
             if(decodedToken.exp * 1000 < Date.now()) {

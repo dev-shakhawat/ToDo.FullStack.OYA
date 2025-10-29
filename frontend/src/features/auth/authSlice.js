@@ -113,6 +113,8 @@ export const authSlice = createSlice({
       // -----------------------
       .addCase(loginUser.pending, (state) => { state.loading = true })
       .addCase(loginUser.fulfilled, (state, action) => {
+        console.log(loginUser());
+        
         state.loading = false;
         state.notification = true
         state.user = action.payload;
@@ -121,7 +123,6 @@ export const authSlice = createSlice({
         state.error = null;
       })
       .addCase(loginUser.rejected, (state, action) => {
- 
         state.notification = true
         state.loading = false;
         state.error = action.payload.message;

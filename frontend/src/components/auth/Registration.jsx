@@ -28,7 +28,7 @@ const handleRegistration = async () => {
   return (
     <div className="bgimage "> 
 
-      <h2 className="mb-7 text-[1.4rem] font-medium">Create an account</h2>
+      <h2 className="mb-7 text-[1.4rem] font-medium text-white ">Create an account</h2>
       <div className="flex  flex-col gap-4 text-sm">
         <Input onChange={(e)=>setRegForm({...regForm , username: e.target.value})} type="text" icon={`user`} placeholder="User name" />
         <Input onChange={(e)=>setRegForm({...regForm , email: e.target.value})} type="email" icon={`email`} placeholder="Your email" />
