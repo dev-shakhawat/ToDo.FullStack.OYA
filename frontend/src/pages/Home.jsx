@@ -13,6 +13,7 @@ import { IoCloseOutline } from "react-icons/io5";
 import TodoList from '../components/TodoList';
 import TaskButton from '../components/TaskButton';
 import AddTodoForm from '../components/AddTodoForm';
+import Header from '../components/Header';
 
 
 function Home() {
@@ -172,28 +173,7 @@ function Home() {
       <div className="container">
         
         {/* Header */}
-        <header className="header">
-          <div className="header-content">
-            <div className="logo">
-              <img src={logo} alt={logo.src} className='w-20' />
-              <div className="logo-text">
-                <h1>Quantum Task</h1>
-                <p>Organize your life beautifully</p>
-              </div>
-            </div>
-            
-            <div className="header-stats">
-              <div className="stat">
-                <span className="stat-number">{activeTodos}</span>
-                <span className="stat-label">Active</span>
-              </div>
-              <div className="stat">
-                <span className="stat-number">{completedTodos}</span>
-                <span className="stat-label">Done</span>
-              </div>
-            </div>
-          </div>
-        </header>
+        <Header activeTodos={activeTodos} completedTodos={completedTodos}  />
 
         {/* Main Content */}
         <main className="main-content">
