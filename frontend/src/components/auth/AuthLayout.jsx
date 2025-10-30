@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router';
 
 import logo from "../../../src/assets/images/logo.png"
+import { useSelector } from 'react-redux';
 
 export default function AuthLayout() {
     const navigate = useNavigate();
@@ -9,6 +10,7 @@ export default function AuthLayout() {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [isLoaded, setIsLoaded] = useState(false);
     const params = useParams()
+    const { user } = useSelector((state) => state.auth); 
 
     useEffect(() => {
         setIsLoaded(true);
@@ -17,6 +19,11 @@ export default function AuthLayout() {
         };
         window.addEventListener('mousemove', handleMouseMove);
         return () => window.removeEventListener('mousemove', handleMouseMove);
+    }, []);
+
+
+    useEffect(() => {
+      if (user) navigate("/");
     }, []);
  
 

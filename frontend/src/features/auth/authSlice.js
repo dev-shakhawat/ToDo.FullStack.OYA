@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import * as authApi from "./authApi";
 
 // -----------------------
-// 🔹 Thunks
+//  Thunks
 // -----------------------
 
 export const registerUser = createAsyncThunk(
@@ -80,13 +80,13 @@ export const emailVerify = createAsyncThunk(
 );
 
 // -----------------------
-// 🔹 Slice
+//  Slice
 // -----------------------
 
 export const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: null,
+    user: JSON.parse(localStorage.getItem('todoUser')) || null,
     accessToken: null,
     loading: false,
     error: null,
@@ -109,15 +109,14 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // -----------------------
-      // 🔸 Login
+      //  Login
       // -----------------------
       .addCase(loginUser.pending, (state) => { state.loading = true })
-      .addCase(loginUser.fulfilled, (state, action) => {
-        console.log(loginUser());
+      .addCase(loginUser.fulfilled, (state, action) => { 
         
         state.loading = false;
         state.notification = true
-        state.user = action.payload;
+        state.user =   action.payload;
         state.accessToken = action.payload.accessToken;
         state.message = action.payload.message;
         state.error = null;
@@ -130,7 +129,7 @@ export const authSlice = createSlice({
       })
 
       // -----------------------
-      // 🔸 Registration
+      //  Registration
       // -----------------------
       .addCase(registerUser.pending, (state) => { state.loading = true })
       .addCase(registerUser.fulfilled, (state, action) => {
@@ -149,7 +148,7 @@ export const authSlice = createSlice({
       })
 
       // -----------------------
-      // 🔸 Refresh Token
+      //  Refresh Token
       // -----------------------
       .addCase(refresh.pending, (state) => { state.loading = true })
       .addCase(refresh.fulfilled, (state, action) => {
@@ -166,7 +165,7 @@ export const authSlice = createSlice({
       })
 
       // -----------------------
-      // 🔸 Forget Password
+      //  Forget Password
       // -----------------------
       .addCase(forgetPass.pending, (state) => { state.loading = true })
       .addCase(forgetPass.fulfilled, (state, action) => {
@@ -181,7 +180,7 @@ export const authSlice = createSlice({
       })
 
       // -----------------------
-      // 🔸 Reset Password
+      //  Reset Password
       // -----------------------
       .addCase(resetPass.pending, (state) => { state.loading = true })
       .addCase(resetPass.fulfilled, (state, action) => {
@@ -196,7 +195,7 @@ export const authSlice = createSlice({
       })
 
       // -----------------------
-      // 🔸 Email Verify
+      //  Email Verify
       // -----------------------
       .addCase(emailVerify.pending, (state) => { state.loading = true })
       .addCase(emailVerify.fulfilled, (state, action) => {

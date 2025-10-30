@@ -25,8 +25,11 @@ export default function Login({setCurrentPage}) {
         const resultAction = await dispatch(loginUser(loginForm))
         const result = unwrapResult(resultAction); 
 
+        console.log(resultAction);
+        
 
-        if ( resultAction.payload.message ) { 
+
+        if ( resultAction.payload.success ) { 
            localStorage.setItem('todoUser' , JSON.stringify(resultAction.payload))
            setAccessToken(resultAction.payload.accessToken) 
            navigate("/")
