@@ -3,6 +3,7 @@ import { IoAddOutline, IoCloseOutline } from "react-icons/io5";
 
 import upload from "../assets/images/upload.png"; 
 import { createTodo } from "../features/todo/todoSlice";
+import { useDispatch } from "react-redux";
 
 export default function AddTodoForm({ todos , setTodos    }) {
   
@@ -11,6 +12,8 @@ export default function AddTodoForm({ todos , setTodos    }) {
   const [mediaType, setMediaType] = useState('');
   const [showMediaUpload, setShowMediaUpload] = useState(false);
   const [priority, setPriority] = useState('medium');
+  const dispatch = useDispatch();
+
 
 
 
@@ -28,7 +31,7 @@ export default function AddTodoForm({ todos , setTodos    }) {
  
     
     
-    await createTodo(formData)
+    await dispatch(createTodo(formData))
      
     setNewTodo('');
     setPriority('medium');
