@@ -4,12 +4,9 @@ import { useSelector } from 'react-redux';
 import {useNavigate} from 'react-router';
 
 // icons
-import upload from "../assets/images/upload.png"
-import logo from "../assets/images/logo.png"
 
-// icons
-import { IoAddOutline } from "react-icons/io5";
-import { IoCloseOutline } from "react-icons/io5";
+
+// icons 
 import TodoList from '../components/TodoList';
 import TaskButton from '../components/TaskButton';
 import AddTodoForm from '../components/AddTodoForm';
@@ -19,13 +16,13 @@ import Header from '../components/Header';
 function Home() {
   const [todos, setTodos] = useState([]);
   const [filter, setFilter] = useState('all');
-  const [newTodo, setNewTodo] = useState('');
+  
   const [editingId, setEditingId] = useState(null);
   const [editText, setEditText] = useState('');
-  const [priority, setPriority] = useState('medium');
-  const [media, setMedia] = useState(null);
-  const [mediaType, setMediaType] = useState('');
-  const [showMediaUpload, setShowMediaUpload] = useState(false);
+   
+  
+  
+  
   const {user} = useSelector((state) => state.auth)
   const navigate = useNavigate();
 
@@ -50,26 +47,8 @@ function Home() {
     localStorage.setItem('modern-todos', JSON.stringify(todos));
   }, [todos]);
 
-  // Add new todo
-  const addTodo = (e) => {
-    e.preventDefault();
-    if (newTodo.trim()) {
-      const todo = {
-        id: Date.now().toString(),
-        text: newTodo.trim(),
-        completed: false,
-        createdAt: new Date().toISOString(),
-        priority: priority,
-        media: media ? { type: mediaType, url: media, name: media.name } : null
-      };
-      setTodos([todo, ...todos]);
-      setNewTodo('');
-      setPriority('medium');
-      setMedia(null);
-      setMediaType('');
-      setShowMediaUpload(false);
-    }
-  };
+
+
 
   // Toggle todo completion
   const toggleTodo = (id) => {
@@ -113,27 +92,10 @@ function Home() {
   };
 
   // Handle file upload
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setMedia({
-          url: event.target.result,
-          name: file.name,
-          type: file.type
-        });
-        setMediaType(file.type.startsWith('image/') ? 'image' : 'video');
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+
 
   // Remove media
-  const removeMedia = () => {
-    setMedia(null);
-    setMediaType('');
-  };
+
 
   // Filter todos
   const filteredTodos = todos.filter(todo => {
@@ -179,7 +141,7 @@ function Home() {
         <main className="main-content">
           
           {/* Add Todo Form */}
-          <AddTodoForm setNewTodo={setNewTodo} newTodo={newTodo} addTodo={addTodo} priority={priority} setPriority={setPriority} media={media} mediaType={mediaType} showMediaUpload={showMediaUpload} setShowMediaUpload={setShowMediaUpload} handleFileChange={handleFileChange} upload={upload} removeMedia={removeMedia} />
+          <AddTodoForm todos={todos} setTodos={setTodos}  />
 
           {/* Filter Buttons */}
           <section className="filter-section">
@@ -222,7 +184,7 @@ function Home() {
 
         {/* Footer */}
         <footer className="footer">
-          <p>Made with <i className="fas fa-heart"></i> • Modern Todo App</p>
+          <p>Made by • Md.Shakhawat Hossain</p>
         </footer>
       </div>
     </div>

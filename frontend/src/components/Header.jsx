@@ -2,7 +2,11 @@ import React from "react";
 
 import logo from "../assets/images/logo.png";
 
+
+
 export default function Header({ activeTodos, completedTodos }) {
+ 
+
   return (
     <header className="header">
       <div className="header-content">

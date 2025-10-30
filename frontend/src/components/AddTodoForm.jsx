@@ -1,10 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
 import { IoAddOutline, IoCloseOutline } from "react-icons/io5";
 
-export default function AddTodoForm({setNewTodo , newTodo , addTodo , priority , setPriority , media , mediaType ,  showMediaUpload , setShowMediaUpload , handleFileChange , upload , removeMedia }) {
+import upload from "../assets/images/upload.png"; 
+import { createTodo } from "../features/todo/todoSlice";
+
+export default function AddTodoForm({ todos , setTodos    }) {
+  
+  const [newTodo, setNewTodo] = useState('');
+  const [media, setMedia] = useState(null);
+  const [mediaType, setMediaType] = useState('');
+  const [showMediaUpload, setShowMediaUpload] = useState(false);
+  const [priority, setPriority] = useState('medium');
+
+
+
+  const addTodo = async (e) => {
+    e.preventDefault();
+
+ 
+
+    if(newTodo.trim() === '' && media === null) return 
+
+    const formData = new FormData();
+    formData.append('media', media);
+    formData.append('text',  newTodo.trim());
+
+ 
+    
+    
+    await createTodo(formData)
+     
+    setNewTodo('');
+    setPriority('medium');
+    setMedia(null);
+    setMediaType('');
+    setShowMediaUpload(false);
+
+
+
+  };
+
+    const removeMedia = () => {
+    setMedia(null);
+    setMediaType('');
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setMedia({
+          url: event.target.result,
+          name: file.name,
+          type: file.type
+        });
+        setMediaType(file.type.startsWith('image/') ? 'image' : 'video');
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  
   return (
     <section className="add-todo-section">
-      <form className="todo-form" onSubmit={addTodo}>
+      <form className="todo-form" onSubmit={(e) => addTodo(e)}>
         <div className="input-group">
           <div className="text-input-container">
             <input
@@ -32,10 +92,9 @@ export default function AddTodoForm({setNewTodo , newTodo , addTodo , priority ,
 
             <button
               type="button"
-              className={`media-toggle-btn ${showMediaUpload ? "active" : ""}`}
+              className={`media-toggle-btn cursor-pointer ${showMediaUpload ? "active" : ""}`}
               onClick={() => setShowMediaUpload(!showMediaUpload)}
-            >
-              <i className="fas fa-paperclip"></i>
+            > 
               {media ? "Media Added" : "Add Media"}
             </button>
           </div>
@@ -44,7 +103,7 @@ export default function AddTodoForm({setNewTodo , newTodo , addTodo , priority ,
           {showMediaUpload && (
             <div className=" ">
               <div className=" flex justify-between  ">
-                <h4>Add Media</h4>
+                <h4 className="">Add Media</h4>
                 <button
                   type="button"
                   className=" px-2 py-1 rounded-tl-md rounded-tr-md bg-white/10 cursor-pointer  "
@@ -62,7 +121,7 @@ export default function AddTodoForm({setNewTodo , newTodo , addTodo , priority ,
                   style={{ width: "100%", height: "100%" }}
                   className="absolute top-0 left-0 w-full h-full cursor-pointer opacity-0 "
                 />
-                <img src={upload} alt={upload.src} className=" w-15 mx-auto " />
+                <img src={upload} alt={upload} className=" w-15 mx-auto " />
               </div>
 
               {/* media preview */}
