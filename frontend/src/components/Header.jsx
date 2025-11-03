@@ -1,34 +1,18 @@
-import React from "react";
+// components/Header.js
+import React from 'react';
 
-import logo from "../assets/images/logo.png";
-
-
-
-export default function Header({ activeTodos, completedTodos }) {
- 
-
+const Header = () => {
   return (
     <header className="header">
-      <div className="header-content">
-        <div className="logo">
-          <img src={logo} alt={logo.src} className="w-20" />
-          <div className="logo-text">
-            <h1>Quantum Task</h1>
-            <p>Organize your life beautifully</p>
-          </div>
-        </div>
-
-        <div className="header-stats">
-          <div className="stat">
-            <span className="stat-number">{activeTodos}</span>
-            <span className="stat-label">Active</span>
-          </div>
-          <div className="stat">
-            <span className="stat-number">{completedTodos}</span>
-            <span className="stat-label">Done</span>
-          </div>
-        </div>
+      <div className="logo">
+        <i className="fas fa-terminal"></i>
+        <h1>CyberTask</h1>
+      </div>
+      <div className="subtitle">
+        <span className="typing-animation">System initialized. Ready for task management.</span>
       </div>
     </header>
   );
-}
+};
+
+export default Header;

@@ -13,19 +13,20 @@ const refreshApi = axios.create({
 
 let accessToken = localStorage.getItem("todoUser") ? JSON.parse(localStorage.getItem("todoUser")).accessToken : null
 
-  
 
 
 export const setAccessToken = (token) => accessToken = token 
 
 api.interceptors.request.use( async (config) => {
-
+    
     try{ 
         
         if(accessToken) {
             const decodedToken = jwtDecode(accessToken)
             if(decodedToken.exp * 1000 < Date.now()) {
                 const res = await refreshApi.post("auth/refresh")
+                console.log(res , "28");
+                
                 accessToken = res.data.accessToken
             }
 

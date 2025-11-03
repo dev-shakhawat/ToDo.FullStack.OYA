@@ -19,18 +19,13 @@ export default function AddTodoForm({ todos , setTodos    }) {
 
   const addTodo = async (e) => {
     e.preventDefault();
-
  
-
     if(newTodo.trim() === '' && media === null) return 
 
     const formData = new FormData();
     formData.append('media', media);
     formData.append('text',  newTodo.trim());
 
- 
-    
-    
     await dispatch(createTodo(formData))
      
     setNewTodo('');
@@ -38,9 +33,7 @@ export default function AddTodoForm({ todos , setTodos    }) {
     setMedia(null);
     setMediaType('');
     setShowMediaUpload(false);
-
-
-
+ 
   };
 
     const removeMedia = () => {

@@ -4,11 +4,9 @@ const jwt = require("jsonwebtoken")
 
 async function refreshController(req , res){
     try{  
+  
 
-        console.log(req.cookie);
-        
-
-         const token = req.cookie.refreshToken  // get token from cookie 
+         const token = req.cookies.refreshToken  // get token from cookie 
 
          if(!token) return res.status(400).send({ success: false , message : "Invalid token" })  // token not found 
 

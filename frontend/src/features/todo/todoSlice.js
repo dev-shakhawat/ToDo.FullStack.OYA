@@ -5,8 +5,7 @@ import * as todoApi from "./todoApi";
 
 export const createTodo = createAsyncThunk(
   "todo/create",
-  async (data, { rejectWithValue }) => {
-    console.log(data);
+  async (data, { rejectWithValue }) => { 
     
     try {
       const res = await todoApi.createTodo(data);
