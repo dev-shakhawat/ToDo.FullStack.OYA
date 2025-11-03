@@ -1,33 +1,40 @@
 const jwt = require('jsonwebtoken')
+const userSchema = require('../schema/userSchema')
 
 
 
-async function authMiddlewere(req , res , next) {
- 
+async function authMiddlewere(req , res , next) { 
     
-    try{
-
+    try{ 
+        
         const header = req.headers.authorization  // get header from request
-
-        
-        
-        if(!header) return res.status(400).send({ success: false , message : "Authentication failed 14" })  // header not found
+         
+          
+        if(!header) return res.status(400).send({ success: false , message : "Authentication failed" })  // header not found
         
         const token = header.split(" ")[1]  // get token from header
+
+        const cookie = req.cookies.refreshToken  // get cookie from request
+
+        if(!token && !cookie) return res.status(400).send({ success: false , message : "Authentication failed" })  // token not found
         
+        // find user in database
+        const user = await userSchema.findOne({ refreshToken : cookie })
+
+
         // verify token 
-        jwt.verify(token , process.env.REFRESH_TOKEN_SECRET , (error , decodedToken)=>{
+        jwt.verify(token , process.env.ACCESS_TOKEN_SECRET , (error , decodedToken)=>{
 
-            if(error) return res.status(400).send({ success: false , message : "Authentication failed 21" })  // token not valid
+            if(error) return res.status(400).send({ success: false , message : "Authentication failed" })  // token not valid
 
-            req.user = decodedToken
+            req.user = user
 
             next()
             
         })  
 
     }catch(error){
-        return res.status(400).send({ error: error.message || "Authentication failed 30" })  // send error message to client
+        return res.status(400).send({ error: error.message || "Authentication failed" })  // send error message to client
     }
 }
 

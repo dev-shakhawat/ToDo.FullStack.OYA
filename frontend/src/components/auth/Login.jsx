@@ -9,8 +9,7 @@ import { useDispatch } from 'react-redux'
 // icons 
 import Button from '../common/Button';
 import { clearStatus, loginUser, notify } from '../../features/auth/authSlice';
-import { unwrapResult } from '@reduxjs/toolkit';
-import { setAccessToken } from '../../api';
+import { unwrapResult } from '@reduxjs/toolkit'; 
 import { useNavigate } from 'react-router';
 
 export default function Login({setCurrentPage}) {
@@ -24,14 +23,10 @@ export default function Login({setCurrentPage}) {
       try {
         const resultAction = await dispatch(loginUser(loginForm))
         const result = unwrapResult(resultAction); 
-
-        console.log(resultAction);
-        
-
+ 
 
         if ( resultAction.payload.success ) { 
-           localStorage.setItem('todoUser' , JSON.stringify(resultAction.payload))
-           setAccessToken(resultAction.payload.accessToken) 
+           localStorage.setItem('todoUser' , JSON.stringify(resultAction.payload)) 
            navigate("/")
         }
 

@@ -1,14 +1,15 @@
 // components/Header.js
 import React from 'react';
+import logo from "../../src/assets/images/logo.png";
 
 const Header = () => {
   return (
-    <header className="header">
+    <header className="flex py-5 gap-10  ">
       <div className="logo">
-        <i className="fas fa-terminal"></i>
-        <h1>CyberTask</h1>
+        <img src={logo} alt={logo.src} className='w-20' />
       </div>
       <div className="subtitle">
+        <h2 className="text-blue-400 font-bold text-xl  ">Quantum Task</h2>
         <span className="typing-animation">System initialized. Ready for task management.</span>
       </div>
     </header>

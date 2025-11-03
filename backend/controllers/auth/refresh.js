@@ -3,8 +3,11 @@ const jwt = require("jsonwebtoken")
 
 
 async function refreshController(req , res){
-    try{  
-  
+
+    try{   
+
+        console.log(req.cookies.refreshToken);
+        
 
          const token = req.cookies.refreshToken  // get token from cookie 
 
@@ -20,7 +23,7 @@ async function refreshController(req , res){
              if(err) return res.status(400).send({ success: false , message : "Invalid token" })  // token not valid
 
              // access token generate
-             const accessToken = jwt.sign({ _id: user._id}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10m' });
+             const accessToken = jwt.sign({ _id: user._id}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
 
              return res.status(200).send({ success: true ,  accessToken })  // send success message to client
         })

@@ -1,5 +1,6 @@
-const env = require("dotenv").config();
+require("dotenv").config();
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const dbConfigaration = require("./configurations/dbConfig");
 const app = express();
 const routes = require("./routes");
@@ -13,6 +14,7 @@ const { rateLimit } = require('express-rate-limit')
 
 
 app.use(express.json()); // json parser
+app.use(cookieParser()); // cookie parser
 app.use("/uploads" , express.static("uploads"))
 app.use(express.urlencoded({ extended: true }))
 
