@@ -6,14 +6,21 @@ const todoSchema = new mongoose.Schema({
         ref: "user",
         required: [true, "User ID is required"],
     },
+    priority: {
+        type: String,
+        enum: ['High', 'Medium', 'Low'],
+        default: 'Medium',
+    },
     text: {
         type: String,
-        trim: true,
-        required: [true, "Text is required"],
+        default: '',
     },
     media : {
         type : String,
         trim : true, 
+    },
+    mediaPublicID:{
+        type : String, 
     },
     mediaType : {
         type : String,

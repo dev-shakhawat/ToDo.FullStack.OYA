@@ -1,67 +1,80 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoAddOutline, IoCloseOutline } from "react-icons/io5";
-
-import upload from "../assets/images/upload.png"; 
-import { createTodo } from "../features/todo/todoSlice";
 import { useDispatch } from "react-redux";
+import uploadIcon from "../assets/images/upload.png"; 
+import { createTodo } from "../features/todo/todoSlice";
 
-export default function AddTodoForm({ todos , setTodos    }) {
-  
-  const [newTodo, setNewTodo] = useState('');
-  const [media, setMedia] = useState(null);
-  const [mediaType, setMediaType] = useState('');
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+
+export default function AddTodoForm() {
+
+  const [newTodo, setNewTodo] = useState("");
+  const [media, setMedia] = useState(null);        
+  const [mediaType, setMediaType] = useState("");  
+  const [preview, setPreview] = useState(null);    
   const [showMediaUpload, setShowMediaUpload] = useState(false);
-  const [priority, setPriority] = useState('medium');
+  const [priority, setPriority] = useState("Medium");
+  const [adding , setAdding] = useState(false)
+  
   const dispatch = useDispatch();
 
-
-
-
-  const addTodo = async (e) => {
-    e.preventDefault();
- 
-    if(newTodo.trim() === '' && media === null) return 
-
-    const formData = new FormData();
-    formData.append('media', media);
-    formData.append('text',  newTodo.trim());
-
-    await dispatch(createTodo(formData))
-     
-    setNewTodo('');
-    setPriority('medium');
-    setMedia(null);
-    setMediaType('');
-    setShowMediaUpload(false);
- 
-  };
-
-    const removeMedia = () => {
-    setMedia(null);
-    setMediaType('');
-  };
-
+  // Handle file selection
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        setMedia({
-          url: event.target.result,
-          name: file.name,
-          type: file.type
-        });
-        setMediaType(file.type.startsWith('image/') ? 'image' : 'video');
-      };
-      reader.readAsDataURL(file);
+      setMedia(file); // store File object
+      setMediaType(file.type.startsWith("image/") ? "image" : "video");
     }
   };
 
-  
+  // Generate preview
+  useEffect(() => {
+    if (!media) {
+      setPreview(null);
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => setPreview(reader.result);
+    reader.readAsDataURL(media);
+  }, [media]);
+
+  // Remove media
+  const removeMedia = () => {
+    setMedia(null);
+    setPreview(null);
+    setMediaType("");
+  };
+
+  // Submit form
+  const addTodo = async (e) => {
+    e.preventDefault();
+    if (newTodo.trim() === "" && !media) return;
+
+    setAdding(true)
+
+    const formData = new FormData();
+    formData.append("text", newTodo.trim());
+    formData.append("priority", priority);
+    if (media) formData.append("media", media);
+
+    try {
+      await dispatch(createTodo(formData));
+      setNewTodo("");
+      setPriority("Medium");
+      removeMedia();
+      setShowMediaUpload(false);
+      setAdding(false)
+    } catch (err) {
+      setAdding(false)
+      console.error("Todo creation failed:", err);
+    }
+  };
+
   return (
     <section className="add-todo-section">
-      <form className="todo-form" onSubmit={(e) => addTodo(e)}>
+      <form className="todo-form" onSubmit={addTodo}>
         <div className="input-group">
+          {/* Text input */}
           <div className="text-input-container">
             <input
               type="text"
@@ -71,86 +84,72 @@ export default function AddTodoForm({ todos , setTodos    }) {
               className="todo-input"
             />
             <button type="submit" className="add-button">
-              <IoAddOutline />
+              
+              {  adding ?  <AiOutlineLoading3Quarters className="animate-spin" /> : <IoAddOutline /> }
             </button>
           </div>
 
+          {/* Options: priority + media toggle */}
           <div className="form-options">
             <select
               value={priority}
               onChange={(e) => setPriority(e.target.value)}
               className="priority-select"
             >
-              <option value="low">Low Priority</option>
-              <option value="medium">Medium Priority</option>
-              <option value="high">High Priority</option>
+              <option value="Low">Low Priority</option>
+              <option value="Medium">Medium Priority</option>
+              <option value="High">High Priority</option>
             </select>
 
             <button
               type="button"
-              className={`media-toggle-btn cursor-pointer ${showMediaUpload ? "active" : ""}`}
+              className={`media-toggle-btn ${showMediaUpload ? "active" : ""}`}
               onClick={() => setShowMediaUpload(!showMediaUpload)}
-            > 
+            >
               {media ? "Media Added" : "Add Media"}
             </button>
           </div>
 
-          {/* Media Upload Section */}
+          {/* Media Upload */}
           {showMediaUpload && (
-            <div className=" ">
-              <div className=" flex justify-between  ">
-                <h4 className="">Add Media</h4>
-                <button
-                  type="button"
-                  className=" px-2 py-1 rounded-tl-md rounded-tr-md bg-white/10 cursor-pointer  "
-                  onClick={() => setShowMediaUpload(false)}
-                >
+            <div className="media-upload-section mt-2">
+              <div className="flex justify-between items-center mb-2">
+                <h4>Add Media</h4>
+                <button type="button" onClick={() => setShowMediaUpload(false)}>
                   <IoCloseOutline />
                 </button>
               </div>
 
-              <div className=" relative h-15   rounded-tl-md rounded-bl-md rounded-br-md  bg-white/10  ">
+              <div className="relative rounded bg-white/10 p-4">
                 <input
                   type="file"
                   onChange={handleFileChange}
                   accept="image/*,video/*"
-                  style={{ width: "100%", height: "100%" }}
-                  className="absolute top-0 left-0 w-full h-full cursor-pointer opacity-0 "
+                  className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
                 />
-                <img src={upload} alt={upload} className=" w-15 mx-auto " />
+                <img src={uploadIcon} alt="Upload" className="w-12 mx-auto" />
               </div>
 
-              {/* media preview */}
-              {media && (
-                <div className="mt-5  ">
-                  <div className="flex justify-between ">
+              {/* Preview */}
+              {preview && (
+                <div className="mt-3">
+                  <div className="flex justify-between items-center mb-1">
                     <span>Preview</span>
                     <button
                       type="button"
-                      className="bg-white/10 px-2 py-1 rounded-md cursor-pointer "
+                      className="bg-white/10 px-2 py-1 rounded-md"
                       onClick={removeMedia}
                     >
                       Remove
                     </button>
                   </div>
-                  <div className="w-1/2 ">
+                  <div className="w-1/2">
                     {mediaType === "image" ? (
-                      <div className=" ">
-                        <img src={media.url} alt="Preview" />
-                        <div className=" ">
-                          <i className="fas fa-image"></i>
-                          <span>{media.name}</span>
-                        </div>
-                      </div>
+                      <img src={preview} alt="Preview" className="w-full" />
                     ) : (
-                      <div className=" ">
-                        <video src={media.url} controls />
-                        <div className=" ">
-                          <i className="fas fa-video"></i>
-                          <span>{media.name}</span>
-                        </div>
-                      </div>
+                      <video src={preview} controls className="w-full" />
                     )}
+                    <div className="mt-1 text-sm">{media.name}</div>
                   </div>
                 </div>
               )}

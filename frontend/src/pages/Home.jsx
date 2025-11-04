@@ -1,6 +1,6 @@
 // App.js
 import React, { useState, useEffect } from 'react'; 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {useNavigate} from 'react-router';
 
 // icons
@@ -11,21 +11,22 @@ import TodoList from '../components/TodoList';
 import TaskButton from '../components/TaskButton';
 import AddTodoForm from '../components/AddTodoForm';
 import Header from '../components/Header';
+import { getAllTodo } from '../features/todo/todoSlice';
 
 
 function Home() {
   const [todos, setTodos] = useState([]);
   const [filter, setFilter] = useState('all');
   
-  const [editingId, setEditingId] = useState(null);
+  
   const [editText, setEditText] = useState('');
    
   
-  
-  
   const {user} = useSelector((state) => state.auth)
+  const {todoList} = useSelector((state) => state.todo);
+  const [alltodo , setAllTodo] = useState([])
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
 
 
   useEffect(()=>{
@@ -33,6 +34,33 @@ function Home() {
       navigate("/auth")
     }
   } , [])
+  
+
+  // fetch all todo
+  useEffect(()=> {
+    dispatch(getAllTodo())  
+  } , [])
+  
+
+  // filter todo types
+  useEffect(()=>{
+
+    if(filter === "all"){
+      setAllTodo([...todoList])
+    }
+
+    if(filter === "active"){
+      setAllTodo([...todoList.filter((todo) => !todo.isCompleted)])
+    }
+
+    if(filter === "completed"){
+      setAllTodo([...todoList.filter((todo) => todo.isCompleted)])
+    }
+    
+  } , [filter , todoList]) 
+ 
+  
+
 
   // Load todos from localStorage
   useEffect(() => {
@@ -50,23 +78,11 @@ function Home() {
 
 
 
-  // Toggle todo completion
-  const toggleTodo = (id) => {
-    setTodos(todos.map(todo =>
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    ));
-  };
+ 
 
   // Delete todo
-  const deleteTodo = (id) => {
-    setTodos(todos.filter(todo => todo.id !== id));
-  };
-
-  // Start editing
-  const startEditing = (todo) => {
-    setEditingId(todo.id);
-    setEditText(todo.text);
-  };
+ 
+ 
 
   // Save edit
   const saveEdit = (e) => {
@@ -80,33 +96,19 @@ function Home() {
     }
   };
 
-  // Cancel editing
-  const cancelEdit = () => {
-    setEditingId(null);
-    setEditText('');
-  };
-
+ 
   // Clear completed todos
   const clearCompleted = () => {
     setTodos(todos.filter(todo => !todo.completed));
   };
 
-  // Handle file upload
+ 
 
-
-  // Remove media
-
-
-  // Filter todos
-  const filteredTodos = todos.filter(todo => {
-    if (filter === 'active') return !todo.completed;
-    if (filter === 'completed') return todo.completed;
-    return true;
-  });
+ 
 
   // Calculate stats
-  const totalTodos = todos.length;
-  const completedTodos = todos.filter(todo => todo.completed).length;
+  const totalTodos = todoList.length;
+  const completedTodos = todoList.filter((todo) => todo.isCompleted).length;
   const activeTodos = totalTodos - completedTodos;
 
   // Get priority color
@@ -118,6 +120,10 @@ function Home() {
       default: return '#a4b0be';
     }
   };
+
+
+
+
 
   return (
     <div className="app">
@@ -159,27 +165,9 @@ function Home() {
           </section>
 
           {/* Todo List */}
-          <section className="todo-list-section">
-            {filteredTodos.length === 0 ? (
-              <div className="empty-state">
-                <div className="empty-icon"> 
-                </div>
-                <h3>No tasks found</h3>
-                <p>
-                  {filter === 'all' 
-                    ? "Add a new task to get started!" 
-                    : filter === 'active' 
-                    ? "No active tasks - great job!"
-                    : "No completed tasks yet."
-                  }
-                </p>
-              </div>
-            ) : (
-              <div className="todo-list">
-                {filteredTodos.map(todo => <TodoList todo={todo} deleteTodo={deleteTodo} setEditText={setEditText} cancelEdit={cancelEdit} editText={editText} saveEdit={saveEdit} startEditing={startEditing} toggleTodo={toggleTodo} getPriorityColor={getPriorityColor} editingId={editingId} key={todo.id} onToggle={toggleTodo} onDelete={deleteTodo}  /> )}
-              </div>
-            )}
-          </section>
+          <div className="flex flex-col   gap-2 h-[50vh]  overflow-y-scroll   "> 
+            <TodoList todoList={alltodo}     saveEdit={saveEdit}  editText={editText} setEditText={setEditText}    />
+          </div>
         </main>
 
         {/* Footer */}

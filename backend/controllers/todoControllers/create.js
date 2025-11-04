@@ -1,6 +1,5 @@
-const todoSchema = require('../../schema/todoSchema')
-const path = require("path");
-const fs = require("fs"); 
+const todoSchema = require('../../schema/todoSchema') 
+const deleteImage = require('../../helpers/mediaDelete');
 
 
 
@@ -9,12 +8,9 @@ async function createTodo(req , res){
     
     
     try{
- 
- 
-        
-        const text = req.body.text  // get text from request body
-
-        if(!text) return res.status(400).send({ success: false , message : "Text is required" })  // set text error
+         
+      
+        if(!req.body.text && !  req.file ) return res.status(400).send({ success: false , message : "Add something" })   
 
         let mediaType = null ; 
 
@@ -24,16 +20,11 @@ async function createTodo(req , res){
 
         }
 
-        const todo = await todoSchema.create({ userID: req.user._id ,  text , mediaType , media: req.file ? req.file.path : null , userID : req.user._id })  // create todo in database
+        const todo = await todoSchema.create({ mediaPublicID: req.file ? req.file.filename : null , userID: req.user._id , priority: req.body.priority  ,  text :req.body.text || ""  , mediaType , media: req.file ? req.file.path : null , userID : req.user._id })  // create todo in database
         
         if(!todo) {
 
-            if (req.file) {
-                    const filePath = path.join(__dirname, "../../" , req.file.path); 
-                    if (fs.existsSync(filePath)) {
-                    fs.unlinkSync(filePath); 
-                    }
-                }
+            await deleteImage(req.file.filename , mediaType)
 
             return res.status(200).send({ success: false , message : "Todo creation failed" })  // send success message to client
         }
@@ -42,10 +33,9 @@ async function createTodo(req , res){
 
     }catch(error){
             if (req.file) {
-                    const filePath = path.join(__dirname,  "../../" , req.file.path); 
-                    if (fs.existsSync(filePath)) {
-                    fs.unlinkSync(filePath); 
-                    }
+                    
+                await deleteImage(req.file.filename , req.file.mimetype.split('/')[0] )
+
                 }
         return res.status(400).send({ error: error.message || "Something went wrong" })  // send error message to client
     }

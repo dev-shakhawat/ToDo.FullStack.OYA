@@ -54,7 +54,9 @@
 
 
 
-
+::-webkit-scrollbar {
+  width: 0px;
+}
 
  
 :root {
@@ -426,169 +428,8 @@ body {
   color: white;
 }
 
-/* Todo List */
-.todo-list-section {
-  margin-bottom: 40px;
-}
-
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-  color: var(--text-secondary);
-}
-
-.empty-icon {
-  font-size: 4rem;
-  margin-bottom: 20px;
-  opacity: 0.5;
-}
-
-.empty-state h3 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-  color: var(--text);
-}
-
-.todo-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.todo-item {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 20px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.todo-item::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: var(--primary);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.todo-item:hover::before {
-  opacity: 1;
-}
-
-.todo-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px var(--shadow);
-  border-color: var(--primary);
-}
-
-.todo-item.completed {
-  opacity: 0.7;
-}
-
-.todo-item.completed .todo-content .text {
-  text-decoration: line-through;
-  color: var(--text-secondary);
-}
-
-/* Priority Colors */
-.todo-item.high::before {
-  background: var(--error);
-  opacity: 1;
-}
-
-.todo-item.medium::before {
-  background: var(--warning);
-  opacity: 1;
-}
-
-.todo-item.low::before {
-  background: var(--success);
-  opacity: 1;
-}
-
-/* Todo Checkbox */
-.todo-checkbox {
-  position: relative;
-  margin-top: 2px;
-}
-
-.todo-checkbox input[type="checkbox"] {
-  display: none;
-}
-
-.todo-checkbox label {
-  width: 22px;
-  height: 22px;
-  border: 2px solid var(--border);
-  border-radius: 6px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  background: var(--surface-light);
-}
-
-.todo-checkbox input[type="checkbox"]:checked + label {
-  background: var(--success);
-  border-color: var(--success);
-}
-
-.todo-checkbox input[type="checkbox"]:checked + label i {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.todo-checkbox label i {
-  font-size: 0.8rem;
-  color: white;
-  opacity: 0;
-  transform: scale(0);
-  transition: all 0.3s ease;
-}
-
-/* Todo Content */
-.todo-content {
-  flex: 1;
-  min-width: 0;
-}
-
-.todo-text {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 10px; 
-}
-
-.text {
-  flex: 1;
-  font-size: 1rem;
-  line-height: 1.5;
-  word-break: break-word;
-}
-
- 
-
-.todo-media {
-  margin-top: 12px;
-}
-
-.todo-media img,
-.todo-media video {
-  max-width: 200px;
-  max-height: 120px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-}
+  
+  
 
 /* Edit Form */
 .edit-form {
@@ -633,37 +474,9 @@ body {
   background: var(--error);
   color: white;
 }
-
-/* Todo Actions */
-.todo-actions {
-  display: flex;
-  gap: 8px;
-  margin-top: 2px;
-}
-
-.edit-btn,
-.delete-btn {
-  padding: 5px 12px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  background: transparent;
-  color: var(--text-secondary);
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
-}
-
-.edit-btn:hover {
-  background: var(--primary);
-  color: white;
-  transform: scale(1.1);
-}
-
-.delete-btn:hover {
-  background: var(--error);
-  color: white;
-  transform: scale(1.1);
-}
+ 
+ 
+ 
 
 /* Footer */
 .footer {
@@ -683,35 +496,7 @@ body {
   .container {
     padding: 15px;
   }
-  
-  .header-content {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .logo {
-    justify-content: center;
-  }
-  
-  .header-stats {
-    justify-content: center;
-  }
-  
-  .filter-section {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .filter-buttons {
-    justify-content: center;
-  }
-  
-  .todo-item {
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-  }
-  
+ 
  
   
   .form-options {
@@ -733,9 +518,5 @@ body {
     font-size: 1.5rem;
   }
   
-  .todo-media img,
-  .todo-media video {
-    max-width: 150px;
-    max-height: 90px;
-  }
+ 
 }

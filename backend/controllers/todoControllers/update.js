@@ -9,14 +9,22 @@ async function updateTodo(req , res){
 
         const { id } = req.params  // get id from request params
         
+ 
+        
         const todo = await todoSchema.findOne({ _id : id  , userID: req.user._id})  // find todo in database
 
         if(!todo) return res.status(400).send({ success: false , message : "Todo not found" })  // todo not found
 
-        if(text) {
+        if(req.body.text) {
 
-            todo.text = text  // update text in database
+            todo.text = req.body.text  // update text in database
         }
+
+        if(req.body.priority) todo.priority = req.body.priority  // update priority in database
+
+        if (req.body.hasOwnProperty("isCompleted")) todo.isCompleted = req.body.isCompleted  // update isCompleted in database
+
+
 
         if(req.file){
             
@@ -33,9 +41,8 @@ async function updateTodo(req , res){
 
         await todo.save()  // save todo in database
 
-        return res.status(200).send({ success: true , message : "Updated successfully" })  // send success message to client
+        return res.status(200).send({ success: true , message : "Updated successfully" , todo })  // send success message to client
  
-
     }catch(error){
         res.status(400).send({ error: error.message || "Something went wrong" })  // send error message to client
     }

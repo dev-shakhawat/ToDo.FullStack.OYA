@@ -1,11 +1,10 @@
 const express = require("express");
-const createTodo = require("../../controllers/todoControllers/create");
-const authMiddlewere = require("../../middleweres/authMiddlewere");
 const upload = require("../../helpers/mediaUploader");
+const createTodo = require("../../controllers/todoControllers/create");
+const authMiddlewere = require("../../middleweres/authMiddlewere"); 
 const getAllTodo = require("../../controllers/todoControllers/getAll");
 const updateTodo = require("../../controllers/todoControllers/update");
-const deleteTodo = require("../../controllers/todoControllers/delete");
-const mediaUploadMiddlewere = require("../../middleweres/mediaUploadMiddlewere");
+const deleteTodo = require("../../controllers/todoControllers/delete"); 
 const todoAPI = express.Router();
 
 /**

@@ -6,7 +6,6 @@ async function refreshController(req , res){
 
     try{   
 
-        console.log(req.cookies.refreshToken);
         
 
          const token = req.cookies.refreshToken  // get token from cookie 
