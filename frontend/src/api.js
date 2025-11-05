@@ -2,12 +2,12 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
 const api = axios.create({
-    baseURL: "http://localhost:8080",
+    baseURL: "https://to-do-full-stack-oya-4ojz.vercel.app",
     withCredentials: true // include cookies in request
 });
 
 const refreshApi = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: "https://to-do-full-stack-oya-4ojz.vercel.app",
   withCredentials: true , 
 });
 
