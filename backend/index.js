@@ -34,7 +34,7 @@ dbConfigaration(); // connect to database
 // cors policy unblock
 app.use(
   cors({
-    origin: ["http://localhost:5173" ],
+    origin: ["https://to-do-full-stack-oya.vercel.app" ],
     credentials: true,
   })
 );
