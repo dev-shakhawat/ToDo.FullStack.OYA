@@ -1,10 +1,10 @@
-const express = require("express");
-const upload = require("../../helpers/mediaUploader");
+const express = require("express"); 
 const createTodo = require("../../controllers/todoControllers/create");
 const authMiddlewere = require("../../middleweres/authMiddlewere"); 
 const getAllTodo = require("../../controllers/todoControllers/getAll");
 const updateTodo = require("../../controllers/todoControllers/update");
 const deleteTodo = require("../../controllers/todoControllers/delete"); 
+const mediaUploader = require("../../helpers/mediaUploader");
 const todoAPI = express.Router();
 
 /**
@@ -44,7 +44,7 @@ const todoAPI = express.Router();
  *         description: Something went wrong
  */
 
-todoAPI.post("/create", authMiddlewere, upload.single("media") , createTodo); // create todo
+todoAPI.post("/create", authMiddlewere, mediaUploader , createTodo); // create todo
 
 /**
  * @swagger
@@ -91,7 +91,7 @@ todoAPI.get("/getall", authMiddlewere, getAllTodo); // get all todo
  *       400:
  *         description: Something went wrong
  */
-todoAPI.put("/update/:id", authMiddlewere, upload.single("image"), updateTodo); // get all todo
+todoAPI.put("/update/:id", authMiddlewere, mediaUploader , updateTodo); // get all todo
 
 
 /**
