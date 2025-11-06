@@ -4,11 +4,11 @@ const deleteImage = require('../../helpers/mediaDelete');
 
 
 async function createTodo(req , res){
-    
+
+ 
     try{
-         
       
-        if(!req.body.text && !  req.file ) return res.status(400).send({ success: false , message : "Add something" })   
+        if(!req.body.text && !req.file ) return res.status(400).send({ success: false , message : "Add something" })   
 
         const todo = await todoSchema.create({ 
             userID: req.user._id , 

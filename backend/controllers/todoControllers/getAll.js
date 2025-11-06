@@ -3,6 +3,9 @@ const todoSchema = require('../../schema/todoSchema')
 
 
 async function getAllTodo(req , res){
+    
+    console.log(req.user);
+    
 
     try{
         

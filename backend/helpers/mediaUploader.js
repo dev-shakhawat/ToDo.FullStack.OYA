@@ -2,6 +2,10 @@ const Busboy = require("busboy");
 const cloudinary = require("../configurations/cloudinaryConfig");
 
 const mediaUploader = (req, res, next) => {
+
+  // console.log(req.user);
+  
+
   const busboy = new Busboy({ headers: req.headers });
 
   req.body = {};
@@ -9,7 +13,12 @@ const mediaUploader = (req, res, next) => {
     req.body[fieldname] = val;  
   });
 
+  let fileUpload = false;
+
   busboy.on("file", (fieldname, file, filename, encoding, mimetype) => {
+
+    fileUpload = true;
+
     
     const stream = cloudinary.uploader.upload_stream(
 
@@ -36,8 +45,10 @@ const mediaUploader = (req, res, next) => {
     file.pipe(stream);
   });
 
-  busboy.on("finish", () => {
-    console.log("Busboy stream finished ");
+  busboy.on("finish", () => { 
+
+    if (fileUpload == false) next();
+
   });
 
   req.pipe(busboy);

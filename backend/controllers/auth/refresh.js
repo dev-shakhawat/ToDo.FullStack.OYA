@@ -10,10 +10,12 @@ async function refreshController(req , res){
 
          const token = req.cookies.refreshToken  // get token from cookie 
 
+         
+         
          if(!token) return res.status(400).send({ success: false , message : "Invalid token" })  // token not found 
-
-         const user = userSchema.findOne({ refreshToken : token })  // find user in database
-
+         
+         const user = await userSchema.findOne({ refreshToken : token })  // find user in database
+          
          if(!user) return res.status(400).send({ success: false , message : "Invalid token" })  // user not found
 
          // verify token

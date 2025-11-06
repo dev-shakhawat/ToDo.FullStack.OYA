@@ -32,7 +32,7 @@ async function login(req , res){
         // refresh token generate
         const refreshToken = jwt.sign({ _id: user._id}, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1y' });
 
-        await userSchema.findByIdAndUpdate(user._id , { refreshToken })  // update user in database
+        await userSchema.findByIdAndUpdate(user._id , { refreshToken } , { new: true })  // update user in database
 
         const accessToken =  jwt.sign({ _id: user._id}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10m' })
 

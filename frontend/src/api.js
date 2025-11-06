@@ -3,7 +3,7 @@ import { jwtDecode } from "jwt-decode";
 
 const api = axios.create({
     baseURL: "https://to-do-full-stack-oya-4ojz.vercel.app",
-    withCredentials: true // include cookies in request
+    withCredentials: true  
 });
 
 const refreshApi = axios.create({

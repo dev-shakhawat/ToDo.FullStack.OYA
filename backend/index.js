@@ -52,7 +52,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "http://localhost:8080",
+        url: "https://to-do-full-stack-oya-4ojz.vercel.app",
       },
     ],
     components: {
